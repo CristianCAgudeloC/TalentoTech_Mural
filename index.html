@@ -7,7 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800&display=swap" rel="stylesheet">
 
 <style>
 :root {
@@ -38,8 +38,10 @@
   --header-muted: #b4a5d0;
 
   --danger: #ff5577;
-  --handwritten: 'Caveat', 'Hey August', cursive;
   --sans: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Alias: antes era "handwritten" (Caveat). Ahora todo Nunito,
+     con italic/peso para mantener jerarquía visual. */
+  --display: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Sombras más sutiles para tema claro */
   --shadow-card: 0 4px 20px rgba(28, 11, 59, 0.08);
@@ -91,14 +93,22 @@ html, body {
   background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dim) 100%);
   display: flex; align-items: center; justify-content: center;
   box-shadow: var(--shadow-glow);
-  font-weight: 900; font-size: 2em; color: var(--primary);
-  letter-spacing: -1px;
-  font-family: var(--handwritten);
+  font-family: var(--sans);
+  font-weight: 900; font-size: 1.9em; color: var(--primary);
+  letter-spacing: -2px;
 }
 
 .brand-text h1 { font-size: 1.5em; font-weight: 800; line-height: 1; letter-spacing: -0.5px; }
 .brand-text .accent { color: var(--secondary); }
-.brand-text p { font-family: var(--handwritten); font-size: 1.3em; color: var(--secondary); margin-top: 2px; line-height: 1; }
+.brand-text p {
+  font-size: 0.7em;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-top: 6px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
 
 .header-actions { display: flex; gap: 12px; align-items: center; }
 
@@ -158,11 +168,12 @@ html, body {
 /* ============ MURAL VIEW ============ */
 .mural-hero { max-width: 1600px; margin: 0 auto 32px; text-align: center; padding: 20px 0; }
 .mural-hero h2 {
-  font-family: var(--handwritten); font-size: 4.5em; line-height: 1;
-  color: var(--primary); font-weight: 700;
+  font-size: 2.8em; line-height: 1.05;
+  color: var(--primary); font-weight: 900;
+  letter-spacing: -1.5px;
 }
 .mural-hero h2 .accent { color: var(--secondary-dim); }
-.mural-hero p { margin-top: 8px; font-size: 1.1em; color: var(--text-muted); font-weight: 500; }
+.mural-hero p { margin-top: 10px; font-size: 1em; color: var(--text-muted); font-weight: 500; }
 
 /* Grid masonry con alturas variables vía JS */
 .mural-grid {
@@ -279,9 +290,10 @@ html, body {
 .card-content { padding: 16px 18px 18px; }
 
 .quote {
-  font-family: var(--handwritten);
-  font-size: 1.55em; line-height: 1.1;
+  font-size: 1.05em; line-height: 1.35;
   color: var(--primary);
+  font-weight: 700;
+  font-style: italic;
   margin-bottom: 12px;
   position: relative;
   padding-left: 18px;
@@ -294,9 +306,11 @@ html, body {
 
 .quote::before {
   content: '"';
-  position: absolute; left: 2px; top: -14px;
-  font-size: 1.8em; color: var(--secondary-dim); opacity: 0.8;
+  position: absolute; left: -2px; top: -18px;
+  font-size: 2.4em; color: var(--secondary-dim); opacity: 0.9;
   font-family: Georgia, serif; font-weight: 700;
+  font-style: normal;
+  line-height: 1;
 }
 
 .person { margin-bottom: 10px; }
@@ -343,10 +357,11 @@ html, body {
 /* ============ COLLAGE VIEW ============ */
 .collage-hero { text-align: center; margin-bottom: 20px; padding: 10px 0; }
 .collage-hero h2 {
-  font-family: var(--handwritten); font-size: 3.5em; line-height: 1;
-  color: var(--primary); font-weight: 700;
+  font-size: 2.2em; line-height: 1.05;
+  color: var(--primary); font-weight: 900;
+  letter-spacing: -1px;
 }
-.collage-hero p { margin-top: 6px; color: var(--text-muted); font-size: 1em; }
+.collage-hero p { margin-top: 8px; color: var(--text-muted); font-size: 0.95em; font-weight: 500; }
 
 .collage-canvas {
   position: relative;
@@ -419,13 +434,13 @@ html, body {
 }
 
 .polaroid-caption {
-  margin-top: 12px;
-  font-family: var(--handwritten);
+  margin-top: 10px;
   color: #222;
   text-align: center;
-  font-size: 1.15em;
-  line-height: 1.1;
-  max-height: 2.4em;
+  font-size: 0.85em;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.25;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -466,9 +481,9 @@ html, body {
 
 @media (max-width: 768px) {
   .polaroid { width: 150px; padding: 10px 10px 12px; }
-  .polaroid-caption { font-size: 0.95em; }
+  .polaroid-caption { font-size: 0.8em; }
   .collage-canvas { height: calc(100vh - 200px); }
-  .collage-hero h2 { font-size: 2.5em; }
+  .collage-hero h2 { font-size: 1.8em; }
 }
 
 /* ============ EXPLORE VIEW ============ */
@@ -628,14 +643,14 @@ html, body {
 
 .modal-body { padding: 32px 36px 36px; }
 .modal-body .quote {
-  font-size: 2.4em; line-height: 1.1;
+  font-size: 1.6em; line-height: 1.25;
   padding-left: 28px; margin-bottom: 22px;
   -webkit-line-clamp: initial;
   line-clamp: initial;
   display: block;
   overflow: visible;
 }
-.modal-body .quote::before { font-size: 2.2em; top: -22px; left: 0; }
+.modal-body .quote::before { font-size: 3em; top: -14px; left: 0; }
 .modal-body .person-name { font-size: 1.4em; }
 .modal-body .story {
   font-size: 1.02em; line-height: 1.7;
@@ -661,12 +676,12 @@ html, body {
 @media (max-width: 768px) {
   .app-header { padding: 14px 18px; flex-wrap: wrap; }
   .brand-text h1 { font-size: 1.2em; }
-  .brand-text p { font-size: 1.1em; }
+  .brand-text p { font-size: 0.6em; letter-spacing: 2px; }
   .view-btn { padding: 8px 12px; font-size: 0.8em; }
   .view { padding: 24px 16px; }
-  .mural-hero h2 { font-size: 3em; }
+  .mural-hero h2 { font-size: 2em; }
   .modal-body { padding: 24px 22px; }
-  .modal-body .quote { font-size: 1.9em; }
+  .modal-body .quote { font-size: 1.3em; }
 }
 </style>
 </head>
