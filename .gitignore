@@ -1,0 +1,15 @@
+# Backend — vive en Google Apps Script, no en el repo público
+apps-script.gs
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs / temporales
+*.log
+.cache/

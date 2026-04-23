@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora · Talento Tech</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #1c0b3b;
+  --primary-light: #2d1457;
+  --primary-deep: #0a0418;
+  --secondary: #00d8d9;
+  --secondary-dim: #00a8a9;
+  --secondary-soft: rgba(0, 216, 217, 0.12);
+  --secondary-border: rgba(0, 216, 217, 0.35);
+  --text: #ffffff;
+  --text-muted: #a89dc4;
+  --text-soft: #c9c1de;
+  --surface: rgba(28, 11, 59, 0.65);
+  --surface-hover: rgba(45, 20, 87, 0.8);
+  --surface-border: rgba(168, 157, 196, 0.18);
+  --danger: #ff5577;
+  --handwritten: 'Caveat', 'Hey August', cursive;
+  --sans: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --shadow-card: 0 20px 50px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 40px rgba(0, 216, 217, 0.25);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--primary-deep);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 15% 0%, rgba(0, 216, 217, 0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 90% 100%, rgba(0, 216, 217, 0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(45, 20, 87, 0.6) 0%, transparent 70%),
+    linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 70%, var(--primary-deep) 100%);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(255,255,255,0.4) 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 40%, rgba(0,216,217,0.5) 1px, transparent 1.5px),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.3) 1px, transparent 1.5px),
+    radial-gradient(circle at 10% 90%, rgba(0,216,217,0.3) 1px, transparent 1.5px),
+    radial-gradient(circle at 90% 10%, rgba(255,255,255,0.3) 1px, transparent 1.5px);
+  background-size: 400px 400px, 300px 300px, 500px 500px, 350px 350px, 450px 450px;
+  z-index: -1;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ============ HEADER ============ */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: linear-gradient(180deg, rgba(10, 4, 24, 0.85) 0%, rgba(10, 4, 24, 0.5) 100%);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brand-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dim) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-glow);
+  font-weight: 900;
+  font-size: 1.6em;
+  color: var(--primary);
+  letter-spacing: -1px;
+}
+
+.brand-text h1 {
+  font-size: 1.5em;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+}
+
+.brand-text .accent {
+  color: var(--secondary);
+}
+
+.brand-text p {
+  font-family: var(--handwritten);
+  font-size: 1.3em;
+  color: var(--secondary);
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.view-toggle {
+  display: inline-flex;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 999px;
+  padding: 4px;
+  gap: 2px;
+}
+
+.view-btn {
+  padding: 10px 22px;
+  border: none;
+  background: transparent;
+  color: var(--text-soft);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.9em;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-btn:hover { color: var(--text); }
+
+.view-btn.active {
+  background: var(--secondary);
+  color: var(--primary);
+  box-shadow: 0 4px 20px rgba(0, 216, 217, 0.35);
+}
+
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--secondary-soft);
+  border: 1px solid var(--secondary-border);
+  border-radius: 999px;
+  font-size: 0.8em;
+  font-weight: 700;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--secondary);
+  box-shadow: 0 0 12px var(--secondary);
+  animation: pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.3); }
+}
+
+/* ============ VIEW CONTAINER ============ */
+.view { display: none; padding: 40px; }
+.view.active { display: block; }
+
+/* ============ MURAL VIEW ============ */
+.mural-hero {
+  max-width: 1600px;
+  margin: 0 auto 32px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.mural-hero h2 {
+  font-family: var(--handwritten);
+  font-size: 4.5em;
+  line-height: 1;
+  color: var(--secondary);
+  font-weight: 700;
+  text-shadow: 0 0 40px rgba(0, 216, 217, 0.4);
+}
+
+.mural-hero p {
+  margin-top: 8px;
+  font-size: 1.15em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.mural-grid {
+  max-width: 1600px;
+  margin: 0 auto;
+  column-count: 4;
+  column-gap: 24px;
+}
+
+@media (max-width: 1280px) { .mural-grid { column-count: 3; } }
+@media (max-width: 900px)  { .mural-grid { column-count: 2; } }
+@media (max-width: 600px)  { .mural-grid { column-count: 1; } }
+
+.mural-card {
+  break-inside: avoid;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 20px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.mural-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--secondary-border);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55), 0 0 30px rgba(0, 216, 217, 0.15);
+}
+
+.mural-card.is-new {
+  animation: dropIn 1.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.mural-card.is-new::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  box-shadow: 0 0 0 3px var(--secondary), 0 0 50px var(--secondary);
+  animation: glowPulse 2.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes dropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-120px) rotate(-4deg) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10px) rotate(1deg) scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes glowPulse {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.media-wrap {
+  width: 100%;
+  position: relative;
+  background: var(--primary-deep);
+  overflow: hidden;
+}
+
+.media-wrap img,
+.media-wrap video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.media-wrap .media-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--sans);
+  font-size: 4em;
+  font-weight: 900;
+  color: var(--primary);
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dim) 100%);
+  letter-spacing: -2px;
+}
+
+.video-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 999px;
+  color: var(--secondary);
+  font-size: 0.75em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-content {
+  padding: 20px 22px 22px;
+}
+
+.quote {
+  font-family: var(--handwritten);
+  font-size: 1.75em;
+  line-height: 1.15;
+  color: var(--secondary);
+  margin-bottom: 16px;
+  position: relative;
+  padding-left: 18px;
+}
+
+.quote::before {
+  content: '"';
+  position: absolute;
+  left: -2px;
+  top: -12px;
+  font-size: 1.6em;
+  color: var(--secondary);
+  opacity: 0.5;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.person-name {
+  font-weight: 800;
+  font-size: 1.05em;
+  color: var(--text);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.chip {
+  padding: 4px 11px;
+  background: var(--secondary-soft);
+  border: 1px solid var(--secondary-border);
+  color: var(--secondary);
+  border-radius: 999px;
+  font-size: 0.72em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.chip.space {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-soft);
+}
+
+.story {
+  font-size: 0.92em;
+  line-height: 1.55;
+  color: var(--text-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============ EXPLORE VIEW ============ */
+.explore-controls {
+  max-width: 1400px;
+  margin: 0 auto 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.search-wrap {
+  position: relative;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 18px 22px 18px 60px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 1em;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+.search-wrap input::placeholder { color: var(--text-muted); }
+
+.search-wrap input:focus {
+  outline: none;
+  border-color: var(--secondary);
+  box-shadow: 0 0 0 4px var(--secondary-soft);
+}
+
+.search-icon {
+  position: absolute;
+  left: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary);
+  font-size: 1.2em;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-label {
+  font-size: 0.75em;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 9px 18px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 999px;
+  color: var(--text-soft);
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 0.85em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.pill.active {
+  background: var(--secondary);
+  color: var(--primary);
+  border-color: var(--secondary);
+  box-shadow: 0 4px 20px rgba(0, 216, 217, 0.3);
+}
+
+.explore-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.results-count {
+  max-width: 1400px;
+  margin: 0 auto 16px;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.9em;
+}
+
+.results-count strong { color: var(--secondary); }
+
+/* ============ LOADING / EMPTY ============ */
+.state {
+  max-width: 600px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 60px 40px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+}
+
+.state-icon {
+  font-size: 3.5em;
+  color: var(--secondary);
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+.state h3 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.state p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.spinner {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+  border: 4px solid var(--secondary-soft);
+  border-top-color: var(--secondary);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ============ MODAL ============ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(10, 4, 24, 0.92);
+  backdrop-filter: blur(14px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.modal-overlay.open {
+  display: flex;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  border: 1px solid var(--secondary-border);
+  border-radius: 24px;
+  max-width: 780px;
+  width: 100%;
+  max-height: 92vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7), 0 0 60px rgba(0, 216, 217, 0.15);
+  animation: modalIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalIn {
+  from { transform: translateY(30px) scale(0.96); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.modal-close {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(10, 4, 24, 0.6);
+  color: var(--text);
+  font-size: 1.5em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close:hover {
+  background: var(--secondary);
+  color: var(--primary);
+  transform: rotate(90deg);
+}
+
+.modal-media {
+  width: 100%;
+  max-height: 420px;
+  overflow: hidden;
+  background: var(--primary-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-media img,
+.modal-media video,
+.modal-media iframe {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  border: none;
+}
+
+.modal-body {
+  padding: 32px 36px 36px;
+}
+
+.modal-body .quote {
+  font-size: 2.4em;
+  line-height: 1.1;
+  padding-left: 26px;
+  margin-bottom: 22px;
+}
+
+.modal-body .quote::before {
+  font-size: 1.5em;
+  top: -18px;
+}
+
+.modal-body .person-name {
+  font-size: 1.4em;
+}
+
+.modal-body .story {
+  font-size: 1.02em;
+  line-height: 1.7;
+  color: var(--text-soft);
+  -webkit-line-clamp: initial;
+  display: block;
+  margin-top: 18px;
+}
+
+/* ============ ICONS (inline svg via mask) ============ */
+.icn {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  fill: currentColor;
+}
+
+/* ============ SCROLLBAR ============ */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--primary-deep); }
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--secondary-dim); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+  .app-header { padding: 14px 18px; flex-wrap: wrap; }
+  .brand-text h1 { font-size: 1.2em; }
+  .brand-text p { font-size: 1.1em; }
+  .view-btn { padding: 8px 14px; font-size: 0.8em; }
+  .view { padding: 24px 16px; }
+  .mural-hero h2 { font-size: 3em; }
+  .modal-body { padding: 24px 22px; }
+  .modal-body .quote { font-size: 1.9em; }
+}
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    <div class="brand-badge">TT</div>
+    <div class="brand-text">
+      <h1>Bitácora <span class="accent">Talento Tech</span></h1>
+      <p>nuestras historias</p>
+    </div>
+  </div>
+
+  <div class="header-actions">
+    <div class="live-indicator">
+      <span class="live-dot"></span>
+      <span>En vivo</span>
+    </div>
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="mural">
+        <svg class="icn" viewBox="0 0 24 24"><path d="M3 3h7v9H3V3zm11 0h7v5h-7V3zm0 9h7v9h-7v-9zM3 14h7v7H3v-7z"/></svg>
+        Mural
+      </button>
+      <button class="view-btn" data-view="explore">
+        <svg class="icn" viewBox="0 0 24 24"><path d="M10 18a8 8 0 1 1 5.3-2l4.4 4.3-1.4 1.4-4.3-4.4A8 8 0 0 1 10 18zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+        Explorar
+      </button>
+    </div>
+  </div>
+</header>
+
+<section id="view-mural" class="view active">
+  <div class="mural-hero">
+    <h2>Nuestras historias</h2>
+    <p>Cada testimonio es parte del camino · se actualiza en tiempo real</p>
+  </div>
+  <div id="mural-container" class="mural-grid"></div>
+</section>
+
+<section id="view-explore" class="view">
+  <div class="explore-controls">
+    <div class="search-wrap">
+      <span class="search-icon">
+        <svg class="icn" viewBox="0 0 24 24"><path d="M10 18a8 8 0 1 1 5.3-2l4.4 4.3-1.4 1.4-4.3-4.4A8 8 0 0 1 10 18zm0-2a6 6 0 1 0 0-12 6 6 0 0 0 0 12z"/></svg>
+      </span>
+      <input id="search-input" type="text" placeholder="Buscar por nombre, frase o historia…">
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Región</div>
+      <div class="filter-pills" id="filter-region"></div>
+    </div>
+
+    <div class="filter-group">
+      <div class="filter-label">Espacio</div>
+      <div class="filter-pills" id="filter-space"></div>
+    </div>
+  </div>
+
+  <div class="results-count" id="results-count"></div>
+  <div id="explore-container" class="explore-grid"></div>
+</section>
+
+<div id="modal" class="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">&times;</button>
+    <div class="modal-media" id="modal-media"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// CONFIG
+// ============================================================
+const CONFIG = {
+  API_URL: 'https://script.google.com/macros/s/AKfycbwSkTERa2yl8QJol6YGLfdO0abKpWpsVHmZkqRTx7shitLmr_DHjQYZlQgTqS5nl6Sh/exec',
+  USE_MOCK: false,              // true = mock data, false = Apps Script
+  REFRESH_MS: 10_000,           // polling cada 10s
+  INITIAL_NEW_ANIMATION: false  // animar cards al cargar por primera vez
+};
+
+// ============================================================
+// MOCK DATA (estructura que devolverá el Apps Script)
+// Columnas del sheet → objeto:
+//   id, nombre, region, historia, frase, espacio, media_url,
+//   media_type ('image' | 'video'), aprobado ('SI' | 'NO' | ''),
+//   autorizacion ('Sí, autorizo' | 'No, no autorizo'), timestamp
+// El Apps Script DEBE filtrar: aprobado === 'SI' && autorizacion empieza con 'Sí'
+// y NUNCA debe incluir cedula ni email en la respuesta.
+// ============================================================
+const MOCK = [
+  {
+    id: 1, nombre: 'María José Ospina', region: 'Caldas', espacio: 'Bootcamp',
+    frase: 'Aprendí que programar también es soñar en voz alta',
+    historia: 'Llegué al bootcamp sin saber qué era una variable. Hoy tengo mi primera página web hecha con mis propias manos. Los compañeros se volvieron como familia y cada reto me recordó que sí puedo.',
+    media_url: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800',
+    media_type: 'image', timestamp: Date.now() - 600000
+  },
+  {
+    id: 2, nombre: 'Santiago Restrepo', region: 'Risaralda', espacio: 'Hackathon',
+    frase: 'En 48 horas construimos algo que creíamos imposible',
+    historia: 'Nunca había hecho un hackathon. Mi equipo y yo terminamos sin dormir pero con un prototipo funcional. Ganamos tercer puesto y más que eso, gané confianza en mis ideas.',
+    media_url: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=800',
+    media_type: 'image', timestamp: Date.now() - 900000
+  },
+  {
+    id: 3, nombre: 'Luisa Fernanda Gómez', region: 'Quindío', espacio: 'Feria de empleabilidad',
+    frase: 'Mi primer networking de verdad',
+    historia: 'Entré nerviosa y salí con tres tarjetas y una entrevista agendada. Talento Tech me dio las herramientas, la feria me dio la oportunidad.',
+    media_url: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800',
+    media_type: 'image', timestamp: Date.now() - 1200000
+  },
+  {
+    id: 4, nombre: 'Daniel Mosquera', region: 'Chocó', espacio: 'Bootcamp',
+    frase: 'Desde el Pacífico, escribiendo código que llega al mundo',
+    historia: 'Representar al Chocó en este espacio es más que un honor. Descubrí que la tecnología no tiene límites geográficos y que nuestras voces también caben en este mundo.',
+    media_url: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800',
+    media_type: 'image', timestamp: Date.now() - 1500000
+  },
+  {
+    id: 5, nombre: 'Valentina Ríos', region: 'Antioquia', espacio: 'Evento',
+    frase: 'Vine por curiosidad, me quedé por vocación',
+    historia: 'Venía a acompañar a una amiga y terminé inscribiéndome. Hoy no me imagino mi vida sin este camino.',
+    media_url: '',
+    media_type: 'image', timestamp: Date.now() - 1800000
+  },
+  {
+    id: 6, nombre: 'Juan Pablo Henao', region: 'Caldas', espacio: 'Hackathon',
+    frase: 'Fallamos rápido, aprendimos más rápido',
+    historia: 'Tres intentos fallidos, una idea que al final sí funcionó. El hackathon me enseñó que el error no es el final sino el primer capítulo.',
+    media_url: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800',
+    media_type: 'image', timestamp: Date.now() - 2100000
+  },
+  {
+    id: 7, nombre: 'Camila Andrea Torres', region: 'Risaralda', espacio: 'Bootcamp',
+    frase: 'Rompí el mito de que esto no era para mí',
+    historia: 'Crecí escuchando que las mujeres no eran buenas en tecnología. Hoy lidero un equipo de desarrollo en mi proyecto final. Orgullosa.',
+    media_url: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800',
+    media_type: 'image', timestamp: Date.now() - 2400000
+  },
+  {
+    id: 8, nombre: 'Andrés Felipe Marín', region: 'Quindío', espacio: 'Feria de empleabilidad',
+    frase: 'Una entrevista cambió mi historia',
+    historia: 'En 15 minutos me plantearon un problema real. Lo resolví. Me llamaron al día siguiente. Hoy tengo mi primer trabajo formal en tecnología.',
+    media_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800',
+    media_type: 'image', timestamp: Date.now() - 2700000
+  },
+  {
+    id: 9, nombre: 'Sofía Escobar', region: 'Antioquia', espacio: 'Bootcamp',
+    frase: 'Encontré mi tribu',
+    historia: 'Las amistades que me llevo valen tanto como el conocimiento. Somos una generación que se apoya, se enseña y se empuja hacia adelante.',
+    media_url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800',
+    media_type: 'image', timestamp: Date.now() - 3000000
+  },
+  {
+    id: 10, nombre: 'Nicolás Cardona', region: 'Caldas', espacio: 'Otro',
+    frase: 'El código me devolvió la curiosidad',
+    historia: 'Llevaba años haciendo lo mismo. Talento Tech me recordó que aprender cosas nuevas sigue siendo posible a cualquier edad.',
+    media_url: '',
+    media_type: 'image', timestamp: Date.now() - 3300000
+  }
+];
+
+// ============================================================
+// STATE
+// ============================================================
+const state = {
+  entries: [],
+  previousIds: new Set(),
+  currentView: 'mural',
+  filters: { region: null, space: null, search: '' },
+  isInitialLoad: true
+};
+
+// ============================================================
+// HELPERS
+// ============================================================
+const REGIONS = ['Caldas', 'Quindío', 'Risaralda', 'Chocó', 'Antioquia'];
+const SPACES = ['Bootcamp', 'Evento', 'Hackathon', 'Feria de empleabilidad', 'Otro'];
+
+function getInitials(name) {
+  if (!name) return 'TT';
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return 'TT';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
+function escapeHTML(str) {
+  if (str == null) return '';
+  return String(str).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  }[c]));
+}
+
+// Convierte URLs de Drive a formato servible.
+// El Apps Script idealmente ya lo devuelve listo; esto es respaldo.
+function normalizeMediaUrl(url, type) {
+  if (!url) return '';
+  const driveMatch = url.match(/(?:\/d\/|id=)([a-zA-Z0-9_-]{20,})/);
+  if (driveMatch) {
+    const fileId = driveMatch[1];
+    if (type === 'video') return `https://drive.google.com/file/d/${fileId}/preview`;
+    return `https://lh3.googleusercontent.com/d/${fileId}=s1200`;
+  }
+  return url;
+}
+
+function renderMedia(entry, { forModal = false } = {}) {
+  const url = normalizeMediaUrl(entry.media_url, entry.media_type);
+  const initials = getInitials(entry.nombre);
+
+  if (!url) {
+    return `<div class="media-placeholder">${escapeHTML(initials)}</div>`;
+  }
+
+  if (entry.media_type === 'video') {
+    // Drive video → iframe preview (el único formato que funciona consistentemente)
+    if (url.includes('drive.google.com')) {
+      return `
+        <iframe src="${escapeHTML(url)}" allow="autoplay" allowfullscreen
+                style="width:100%; aspect-ratio: 16/9; border:0;"></iframe>
+        ${forModal ? '' : '<div class="video-badge">▶ Video</div>'}
+      `;
+    }
+    return `
+      <video src="${escapeHTML(url)}" ${forModal ? 'controls' : 'autoplay muted loop playsinline'}></video>
+      ${forModal ? '' : '<div class="video-badge">▶ Video</div>'}
+    `;
+  }
+
+  return `<img src="${escapeHTML(url)}" alt="${escapeHTML(entry.nombre || '')}"
+               loading="lazy"
+               onerror="this.outerHTML='<div class=media-placeholder>${escapeHTML(initials)}</div>'">`;
+}
+
+function renderCard(entry, isNew = false) {
+  return `
+    <article class="mural-card ${isNew ? 'is-new' : ''}" data-id="${entry.id}">
+      <div class="media-wrap">${renderMedia(entry)}</div>
+      <div class="card-content">
+        <p class="quote">${escapeHTML(entry.frase || '')}</p>
+        <div class="person">
+          <span class="person-name">${escapeHTML(entry.nombre || '')}</span>
+        </div>
+        <div class="chips">
+          ${entry.region ? `<span class="chip">${escapeHTML(entry.region)}</span>` : ''}
+          ${entry.espacio ? `<span class="chip space">${escapeHTML(entry.espacio)}</span>` : ''}
+        </div>
+        ${entry.historia ? `<p class="story">${escapeHTML(entry.historia)}</p>` : ''}
+      </div>
+    </article>
+  `;
+}
+
+// ============================================================
+// FETCH
+// ============================================================
+async function fetchEntries() {
+  if (CONFIG.USE_MOCK || !CONFIG.API_URL) {
+    return [...MOCK].sort((a, b) => b.timestamp - a.timestamp);
+  }
+  try {
+    const res = await fetch(CONFIG.API_URL, { cache: 'no-store' });
+    const json = await res.json();
+    if (json.success && Array.isArray(json.data)) {
+      return json.data.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+    }
+    console.warn('API respondió sin success:', json);
+    return state.entries;
+  } catch (err) {
+    console.error('Error al consultar API:', err);
+    return state.entries;
+  }
+}
+
+// ============================================================
+// RENDER: MURAL
+// ============================================================
+function renderMural() {
+  const container = document.getElementById('mural-container');
+  if (!state.entries.length) {
+    container.innerHTML = `
+      <div class="state" style="grid-column: 1/-1; column-span: all;">
+        <div class="state-icon">✨</div>
+        <h3>Pronto llegarán las primeras historias</h3>
+        <p>Sé el primero en compartir tu experiencia en Talento Tech.</p>
+      </div>`;
+    return;
+  }
+
+  const currentIds = new Set(state.entries.map(e => e.id));
+  const animateNew = !state.isInitialLoad || CONFIG.INITIAL_NEW_ANIMATION;
+
+  container.innerHTML = state.entries
+    .map(e => renderCard(e, animateNew && !state.previousIds.has(e.id)))
+    .join('');
+
+  state.previousIds = currentIds;
+  state.isInitialLoad = false;
+}
+
+// ============================================================
+// RENDER: EXPLORE
+// ============================================================
+function buildFilterPills(containerId, options, filterKey) {
+  const container = document.getElementById(containerId);
+  const all = `<button class="pill ${!state.filters[filterKey] ? 'active' : ''}" data-value="">Todos</button>`;
+  const items = options.map(opt => `
+    <button class="pill ${state.filters[filterKey] === opt ? 'active' : ''}" data-value="${escapeHTML(opt)}">
+      ${escapeHTML(opt)}
+    </button>
+  `).join('');
+  container.innerHTML = all + items;
+
+  container.querySelectorAll('.pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.value;
+      state.filters[filterKey] = v || null;
+      buildFilterPills(containerId, options, filterKey);
+      renderExplore();
+    });
+  });
+}
+
+function applyFilters(entries) {
+  const { region, space, search } = state.filters;
+  const q = search.toLowerCase().trim();
+  return entries.filter(e => {
+    if (region && e.region !== region) return false;
+    if (space && e.espacio !== space) return false;
+    if (q) {
+      const hay = `${e.nombre || ''} ${e.frase || ''} ${e.historia || ''}`.toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderExplore() {
+  const container = document.getElementById('explore-container');
+  const countEl = document.getElementById('results-count');
+  const filtered = applyFilters(state.entries);
+
+  countEl.innerHTML = `<strong>${filtered.length}</strong> de ${state.entries.length} historias`;
+
+  if (!filtered.length) {
+    container.innerHTML = `
+      <div class="state" style="grid-column: 1/-1;">
+        <div class="state-icon">🔍</div>
+        <h3>Sin resultados</h3>
+        <p>Prueba con otros filtros o términos de búsqueda.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = filtered.map(e => renderCard(e)).join('');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openModal(id) {
+  const entry = state.entries.find(e => String(e.id) === String(id));
+  if (!entry) return;
+
+  document.getElementById('modal-media').innerHTML = renderMedia(entry, { forModal: true });
+  document.getElementById('modal-body').innerHTML = `
+    <p class="quote">${escapeHTML(entry.frase || '')}</p>
+    <div class="person"><span class="person-name">${escapeHTML(entry.nombre || '')}</span></div>
+    <div class="chips">
+      ${entry.region ? `<span class="chip">${escapeHTML(entry.region)}</span>` : ''}
+      ${entry.espacio ? `<span class="chip space">${escapeHTML(entry.espacio)}</span>` : ''}
+    </div>
+    ${entry.historia ? `<p class="story">${escapeHTML(entry.historia)}</p>` : ''}
+  `;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ============================================================
+// VIEW TOGGLE
+// ============================================================
+function switchView(name) {
+  state.currentView = name;
+  document.querySelectorAll('.view-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.view === name);
+  });
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+
+  if (name === 'explore') renderExplore();
+}
+
+// ============================================================
+// INIT
+// ============================================================
+async function refresh() {
+  const data = await fetchEntries();
+  state.entries = data;
+  if (state.currentView === 'mural') renderMural();
+  else renderExplore();
+}
+
+function init() {
+  // View toggle
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchView(btn.dataset.view));
+  });
+
+  // Search
+  let searchTimer;
+  document.getElementById('search-input').addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      state.filters.search = e.target.value;
+      renderExplore();
+    }, 200);
+  });
+
+  // Filter pills
+  buildFilterPills('filter-region', REGIONS, 'region');
+  buildFilterPills('filter-space', SPACES, 'space');
+
+  // Card clicks (delegated)
+  document.body.addEventListener('click', e => {
+    const card = e.target.closest('.mural-card');
+    if (card) openModal(card.dataset.id);
+  });
+
+  // Modal
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target.id === 'modal') closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  // Initial + polling
+  refresh();
+  setInterval(refresh, CONFIG.REFRESH_MS);
+}
+
+init();
+</script>
+</body>
+</html>
